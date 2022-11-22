@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CopyController;
 use App\Http\Controllers\LendingController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,7 @@ Route::middleware(['auth.basic'])->group(function () {
     Route::get('/api/user_lendings', [LendingController::class, 'userLendingsList']);
     Route::get('/api/user_lendings_unique_count', [LendingController::class, 'userLendingsCount']);
     Route::get('/api/user_lendings_count', [LendingController::class, 'userLendingsCountWithoutDistinct']);
+    Route::get('/api/elojegyzesdb/', [ReservationController::class, 'elojegyzesDB']);
 });
 //csak a tesztelés miatt van "kint"
 Route::patch('/api/users/password/{id}', [UserController::class, 'updatePassword']);
@@ -69,5 +71,10 @@ Route::put('/api/lendings/{user_id}/{copy_id}/{start}', [LendingController::clas
 Route::patch('/api/lendings/{user_id}/{copy_id}/{start}', [LendingController::class, 'update']);
 Route::post('/api/lendings', [LendingController::class, 'store']);
 Route::delete('/api/lendings/{user_id}/{copy_id}/{start}', [LendingController::class, 'destroy']);
+
+
+Route::get('/api/szerzokentCsopABC', [BookController::class, 'szerzokentCsopABC']);
+Route::get('/api/morethanone', [BookController::class, 'moreThan1']);
+Route::get('/api/startswithb', [BookController::class, 'startsWithB']);
 
 require __DIR__.'/auth.php';
