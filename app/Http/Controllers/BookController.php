@@ -71,4 +71,14 @@ class BookController extends Controller
         return $books;
     }
     
+    public function startsWithBArgument($text)
+    {
+        $books = DB::table('books as b')
+            ->select('b.author')
+            ->where('b.author', 'like', $text.'%')
+            //->whereRaw('b.author like "${text}%"')
+            ->get();
+        return $books;
+    }
+
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\CopyController;
 use App\Http\Controllers\LendingController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,9 +43,22 @@ Route::middleware( ['admin'])->group(function () {
     Route::get('/copy/edit/{id}', [CopyController::class, 'editView']);
     Route::get('/copy/list', [CopyController::class, 'listView']); 
 });
+//konyvtaros
+Route::middleware( ['librarian'])->group(function () {
+    //books
+    
+    //copies
+
+    //queries
+
+    //view - copy
+    Route::get('/api/elojegyzesdb/', [ReservationController::class, 'elojegyzesDB']);
+
+});
 
 //SIMPLE USER
 Route::middleware(['auth.basic'])->group(function () {
+
     
     //user   
     Route::apiResource('/api/users', UserController::class);
@@ -60,7 +74,8 @@ Route::middleware(['auth.basic'])->group(function () {
     Route::get('/api/user_lendings', [LendingController::class, 'userLendingsList']);
     Route::get('/api/user_lendings_unique_count', [LendingController::class, 'userLendingsCount']);
     Route::get('/api/user_lendings_count', [LendingController::class, 'userLendingsCountWithoutDistinct']);
-    Route::get('/api/elojegyzesdb/', [ReservationController::class, 'elojegyzesDB']);
+    Route::get('/api/kolcsonzes/{db}', [LendingController::class, 'kolcsParam']);
+    //Route::get('/api/elojegyzesdb/', [ReservationController::class, 'elojegyzesDB']);
 });
 //csak a tesztelés miatt van "kint"
 Route::patch('/api/users/password/{id}', [UserController::class, 'updatePassword']);
@@ -76,5 +91,14 @@ Route::delete('/api/lendings/{user_id}/{copy_id}/{start}', [LendingController::c
 Route::get('/api/szerzokentCsopABC', [BookController::class, 'szerzokentCsopABC']);
 Route::get('/api/morethanone', [BookController::class, 'moreThan1']);
 Route::get('/api/startswithb', [BookController::class, 'startsWithB']);
+
+Route::get('/api/startswithany/{text}', [BookController::class, 'startsWithBArgument']);
+
+Route::get('/api/selejt', [CopyController::class, 'deleteSelejt']);
+Route::get('/api/older/{day}', [ReservationController::class, 'older']);
+
+Route::get('/api/reserved/{konyv_id}', [LendingController::class, 'reserved']);
+
+
 
 require __DIR__.'/auth.php';

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->date("start");
             $table->boolean("message")->default(0);
+            $table->date("message_date")->nullable();
+            $table->boolean("status")->default(0);
             $table->timestamps();
         });
     }

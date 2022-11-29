@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            //0: admin, 1: felhasználó
-            $table->boolean('permission')->default(1);
+            //0: admin, 1: konyvtaros, 2: felhasználó
+            $table->boolean('permission')->default(2);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -30,6 +30,7 @@ return new class extends Migration
         //rekordok feltöltése
         User::create(['name'=>'store', 'email'=>'store@gmail.com', 'password'=> Hash::make('St123456'), 'permission'=> 0]);
         User::create(['name'=>'Marcsi', 'email'=>'student1@gmail.com', 'password'=> Hash::make('Aa123456')]);
+        User::create(['name'=>'Lujza', 'email'=>'konyvelek@gmail.com', 'password'=> Hash::make('Aa123456'), 'permission'=>1]);
         User::create(['name'=>'Iván', 'email'=>'student2@gmail.com', 'password'=> Hash::make('Aa123456')]);
     }
 

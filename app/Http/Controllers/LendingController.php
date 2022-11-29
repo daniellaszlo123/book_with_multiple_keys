@@ -85,4 +85,28 @@ class LendingController extends Controller
         $copies = Copy::all();
         return view('lending.new', ['users' => $users, 'copies' => $copies]);
     }
+//Dániel² vagyok
+    public function kolcsParam($db)
+    {
+        $user=Auth::user();
+        $id=$user->id;
+        $kolcsonok=DB::select(
+            DB::raw("
+                select copy_id, count(copy_id) as db
+                from lendings
+                where user_id=${id}
+                group by copy_id
+                having count(copy_id)>=${db}
+            ")
+        );
+        return $kolcsonok;
+    }
+
+    public function reserved($book_id)
+    {
+        return DB::select(DB::raw("select count(*) as foglalt
+                                 from reservations
+                                 where message=0 and status=0
+                                 and book_id=${book_id}"));
+    }
 }

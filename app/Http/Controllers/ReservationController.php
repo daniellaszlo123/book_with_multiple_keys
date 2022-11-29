@@ -34,6 +34,8 @@ class ReservationController extends Controller
         $reservation->user_id = $request->user_id;
         $reservation->start = $request->start;
         $reservation->message = $request->message;
+        $reservation->message_date=$request->message_date;
+        $reservation->status=$request->status;
         $reservation->save();
     }
 
@@ -44,6 +46,8 @@ class ReservationController extends Controller
         $reservation->user_id = $request->user_id;
         $reservation->start = $request->start;
         $reservation->message = $request->message;
+        $reservation->message_date=$request->message_date;
+        $reservation->status=$request->status;
         $reservation->save();
     }
 
@@ -56,6 +60,18 @@ class ReservationController extends Controller
         return $reservations;
     }
 
+    public function older($day)
+    {
+        $user=Auth::user();
+
+        $reservations = DB::table('reservations as r')
+            ->select('r.book_id', 'r.start')
+            ->where('r.user_id', '$user_id')
+            ->where('r.status', 0)
+            ->whereRaw('DATEDIFF(CURRENT_DATE, r.start) > ?', $day)
+            ->get();
+        return $reservations;
+    }
     
 
     public function d()

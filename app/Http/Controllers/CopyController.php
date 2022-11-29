@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Copy;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CopyController extends Controller
@@ -128,4 +129,18 @@ class CopyController extends Controller
 
         return $lending;
     }
+
+    public function deleteSelejt()
+    {
+        $selejt=DB::select(
+            DB::raw("
+                select copy_id
+                from copies
+                where status=2
+            ")
+        );
+
+        return $selejt;
+    }
+
 }
