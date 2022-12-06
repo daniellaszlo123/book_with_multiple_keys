@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CopyController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\LendingController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Models\Reservation;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,6 +100,13 @@ Route::get('/api/selejt', [CopyController::class, 'deleteSelejt']);
 Route::get('/api/older/{day}', [ReservationController::class, 'older']);
 
 Route::get('/api/reserved/{konyv_id}', [LendingController::class, 'reserved']);
+Route::get('send-mail', [MailController::class, 'index']);
+
+Route::get('file_upload', [FileController::class, 'index']);
+Route::post('file_upload', [FileController::class, 'store'])->name('file.store');
+Route::get('/api/resusers', [ReservationController::class, 'reservUsers']);
+Route::post('/api/resdelete', [ReservationController::class, 'deleteOldReservs']);
+Route::patch('/api/elrejtes', [ReservationController::class, 'elrejt']);
 
 
 

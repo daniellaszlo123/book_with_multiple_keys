@@ -83,4 +83,68 @@ class ReservationController extends Controller
         return $reservations;
     }
 
+    public function deleteOldReservs()
+    {
+        return DB::select(DB::raw("
+            delete from reservations
+            where status=1
+        "));
+    }
+
+    public function reservUsers()
+    {
+        return DB::select(DB::raw("
+            select max(u.name), u.email, count(*) as db
+            from reservations r, users u
+            where r.user_id=u.id 
+            group by u.email 
+            having db>=1
+        "));
+    }
+
+    public function hideOlderThan10()
+    {
+        return DB::select(DB::raw("
+            select book_id, user_id, start
+            from reservations
+            where message is not null 
+            and message_date-current_date()>10
+        "));
+    }
+
+    public function elrejt()
+    {
+        DB::update(DB::raw("
+        update reservations 
+        set status=3
+        where book_id=(select book_id
+                    from reservations
+                    where message =0
+                    and message_date-current_date()>10)
+        and user_id=(select user_id
+                    from reservations
+                    where message =0
+                    and message_date-current_date()>10)
+        and start=(select start
+                    from reservations
+                    where message =0
+                    and message_date-current_date()>10)
+        "));
+/*
+        update reservations 
+        set status=3
+        where book_id=(select book_id
+                    from reservations
+                    where message =0
+                    and datediff(current_date, message_date)>10)
+        and user_id=(select user_id
+                    from reservations
+                    where message =0
+                    and datediff(current_date, message_date)>10)
+        and start=(select start
+                    from reservations
+                    where message =0
+                    and datediff( current_date, message_date)>10)*/
+    }
+
 }

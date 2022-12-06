@@ -3,6 +3,7 @@
 use App\Models\Lending;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -24,6 +25,7 @@ return new class extends Migration
         });
 
         Lending::create(['user_id'=> 2, 'copy_id' => 1, 'start'=> '2022-10-06']);
+        DB::statement("ALTER TABLE lendings ADD CONSTRAINT check_dates CHECK (start > '2012-12-06')");
     }
 
     /**
