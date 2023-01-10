@@ -22,6 +22,7 @@ class VerifyCsrfToken extends Middleware
         '/api/users/password/*',
         'api/lendings',
         'api/lendings/*/*/*',
-        'api/elrejtes'
+        'api/elrejtes',
+        '/api/bringback/*/*'
     ];
 }

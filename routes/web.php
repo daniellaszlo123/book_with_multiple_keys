@@ -65,6 +65,9 @@ Route::middleware(['auth.basic'])->group(function () {
     //user   
     Route::apiResource('/api/users', UserController::class);
     Route::patch('/api/users/password/{id}', [UserController::class, 'updatePassword']);
+
+    
+    Route::patch('/api/bringback/{copy}/{start}', [LendingController::class, 'bringBack']);
     //queries
     Route::get('/api/hardcovered', [CopyController::class, 'hardCopies']);
     Route::get('/api/year_copies/{year}/{author}/{title}', [CopyController::class, 'yearCopies']);
